@@ -45,11 +45,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf().disable()
-                .cors().disable()   // <-- CORS disabled here
-                .authorizeHttpRequests()
-                .requestMatchers("/api/**").permitAll()
-                .anyRequest().permitAll();
+            .csrf(csrf -> csrf.disable())      // Disable CSRF for APIs
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().permitAll()      // Allow ALL endpoints
+            );
 
         return http.build();
     }
