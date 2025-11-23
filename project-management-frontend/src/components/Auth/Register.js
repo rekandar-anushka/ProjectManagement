@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "./Auth.css";
-
+import { BASE_URL } from "../../config";
 function Register() {
   const [form, setForm] = useState({
     username: "",
@@ -21,7 +21,7 @@ function Register() {
     setError("");
 
     try {
-      const res = await axios.post("http://localhost:8080/api/users/register", form);
+      const res = await axios.post(`${BASE_URL}/api/users/register`, form);
 
       if (res.status === 201) {
         alert("Registration successful!");

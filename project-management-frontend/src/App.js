@@ -6,7 +6,6 @@ import Dashboard from './components/Dashboard/Dashboard';
 import MyTasks from './components/Dashboard/MyTasks';
 import MonthlyGoals from './components/Dashboard/MonthlyGoals';
 import Analytics from './components/Dashboard/Analytics';
-
 function App() {
   return (
     <Router>

@@ -12,7 +12,7 @@ import {
   YAxis,
   CartesianGrid,
 } from "recharts";
-
+import { BASE_URL } from "../../config";
 function Analytics() {
   const [tasks, setTasks] = useState([]);
   const [employeeSummary, setEmployeeSummary] = useState([]);
@@ -21,7 +21,7 @@ function Analytics() {
   // Fetch all tasks (for pie chart)
   const fetchTasks = useCallback(async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/tasks");
+      const res = await axios.get(`${BASE_URL}/api/tasks`);
       setTasks(res.data);
     } catch (err) {
       console.error(err);
@@ -31,7 +31,7 @@ function Analytics() {
   // Fetch employee summary (for bar chart)
   const fetchEmployeeSummary = useCallback(async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/tasks/employee-summary");
+      const res = await axios.get(`${BASE_URL}/api/tasks/employee-summary`);
       const data = Object.keys(res.data).map((key) => ({
         name: key,
         tasks: res.data[key],

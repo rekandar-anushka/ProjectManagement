@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import axios from "axios";
-
+import { BASE_URL } from "../../config";
 function MyTasks() {
   const [tasks, setTasks] = useState([]);
   const [usersMap, setUsersMap] = useState({});
@@ -14,7 +14,7 @@ function MyTasks() {
 
   const fetchUsersMap = useCallback(async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/users");
+      const res = await axios.get(`${BASE_URL}/api/users`);
       const map = {};
       res.data.forEach((u) => (map[u.id] = u.username));
       setUsersMap(map);
@@ -27,8 +27,8 @@ function MyTasks() {
     try {
       const res =
         role === "MANAGER"
-          ? await axios.get("http://localhost:8080/api/tasks")
-          : await axios.get(`http://localhost:8080/api/tasks/user/${userId}`);
+          ? await axios.get(`${BASE_URL}/api/tasks`)
+          : await axios.get(`${BASE_URL}/api/tasks/user/${userId}`);
       setTasks(res.data);
     } catch (err) {
       console.error(err);
@@ -38,7 +38,7 @@ function MyTasks() {
 
   const fetchEmployees = useCallback(async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/users");
+      const res = await axios.get(`${BASE_URL}/api/users`);
       const employees = res.data.filter((u) => u.role === "EMPLOYEE");
       setUsers(employees);
     } catch (err) {
@@ -56,7 +56,7 @@ function MyTasks() {
     if (!newTask.title || !newTask.description || !newTask.assignedTo || !newTask.dueDate)
       return alert("All fields are required");
     try {
-      await axios.post("http://localhost:8080/api/tasks", newTask);
+      await axios.post(`${BASE_URL}/api/tasks`, newTask);
       setNewTask({ title: "", description: "", assignedTo: "", dueDate: "" });
       fetchTasks();
     } catch (err) {
@@ -68,7 +68,7 @@ function MyTasks() {
     if (!editingTask.title || !editingTask.description || !editingTask.assignedTo || !editingTask.dueDate)
       return alert("All fields are required");
     try {
-      await axios.put(`http://localhost:8080/api/tasks/${editingTask.id}`, editingTask);
+      await axios.put(`${BASE_URL}/api/tasks/${editingTask.id}`, editingTask);
       setEditingTask(null);
       fetchTasks();
     } catch (err) {
@@ -78,7 +78,7 @@ function MyTasks() {
 
   const updateStatus = async (taskId, newStatus) => {
     try {
-      await axios.put(`http://localhost:8080/api/tasks/${taskId}`, { status: newStatus });
+      await axios.put(`${BASE_URL}/api/tasks/${taskId}`, { status: newStatus });
       fetchTasks();
     } catch (err) {
       console.error(err);
@@ -88,7 +88,7 @@ function MyTasks() {
   const deleteTask = async (taskId) => {
     if (!window.confirm("Are you sure?")) return;
     try {
-      await axios.delete(`http://localhost:8080/api/tasks/${taskId}`);
+      await axios.delete(`${BASE_URL}/api/tasks/${taskId}`);
       fetchTasks();
     } catch (err) {
       console.error(err);

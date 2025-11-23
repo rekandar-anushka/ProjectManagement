@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-
+import { BASE_URL } from "../../config";
 function MonthlyGoals() {
   const [tasks, setTasks] = useState([]);
   const [usersMap, setUsersMap] = useState({});
@@ -11,8 +11,8 @@ function MonthlyGoals() {
     try {
       const res =
         role === "MANAGER"
-          ? await axios.get("http://localhost:8080/api/tasks")
-          : await axios.get(`http://localhost:8080/api/tasks/user/${userId}`);
+          ? await axios.get(`${BASE_URL}/api/tasks`)
+          : await axios.get(`${BASE_URL}/api/tasks/user/${userId}`);
       setTasks(res.data);
     } catch (err) {
       console.error(err);
@@ -21,7 +21,7 @@ function MonthlyGoals() {
 
   const fetchUsersMap = useCallback(async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/users");
+      const res = await axios.get(`${BASE_URL}/api/users`);
       const map = {};
       res.data.forEach((u) => (map[u.id] = u.username));
       setUsersMap(map);

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Outlet, Link, useNavigate, Navigate, useLocation } from "react-router-dom";
-
 function Dashboard() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const navigate = useNavigate();
